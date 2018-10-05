@@ -34,3 +34,12 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+.Rproj.user
+
+# Manuscript
+80-manuscript/*.*
+
+# PDF files of articles (except Open Access articles)
+3-pdfs/*.pdf
+*.pdf
+!3-pdfs/\[OA\]*.pdf

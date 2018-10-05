@@ -1,0 +1,207 @@
+STARTING to process 25 files ...
+
+Processing 'Adeyiga 2014.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Adeyiga 2014.r'
+... File contains variables 'Alcohol affects the unborn child', 'Is the baby different', 'Alcohol has an effect on low birth weight', 'Alcohol has an effect on mental retardation', 'Alcohol has an effect on FAS', 'Alcohol has an effect on low intelligence quotient', 'Alcohol has an effect on delayed development', 'Alcohol has an effect on learning disabilities', 'Alcohol has an effect on behavioural problems', 'Alcohol has an effect on attention deficit', 'Knowledge about effects on baby or child', 'Knowledge about effects', 'Knowledge status of effects on health', 'Alcohol beneficial effect on health', 'Alcohol is harmful' & 'Alcohol herbal brews benefits health'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Adeyiga 2014.r'
+
+Processing 'Adusi-Poku 2012.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Adusi-Poku 2012.r'
+... File contains variables 'Alcohol detrimental pregnancy', 'Alcohol detrimental pregnancy on mother' & 'Alcohol detrimental pregnancy on baby'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Adusi-Poku 2012.r'
+
+Processing 'Astley 2000.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Astley 2000.r'
+... File contains variables 'Alcohol helps to cope life's ups and downs', 'Too depressed to do anything about it', 'Uncomfortable having a problem with alcohol', 'In an abusive or violent relationship', 'Did not think she had a problem', 'Reducing doesn't help', 'Environment did not want her to (to reduce)' & 'Family, friends did not want her to (to reduce)'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Astley 2000.r'
+
+Processing 'Balachova 2014.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Balachova 2014.r'
+... File contains variables 'Contributed to decision: husband,partner', 'Contributed to decision: best female friend', 'Contributed to decision: mother', 'Contributed to decision: father', 'Contributed to decision: grandmother', 'Contributed to decision: grandfather', 'Contributed to decision: friends, co-workers', 'Contributed to decision: Physician or nurse', 'Contributed to decision: OB/GYN or nurse', 'Contributed to decision: warning labels on bottles', 'Contributed to decision: newspapers/magazines', 'Contributed to decision: radio', 'Contributed to decision: television', 'Contributed to decision: posters,pamphlets in public places', 'Contributed to decision: posters,pamphlets in clinics', 'Contributed to decision: medical literature', 'Contributed to decision: school', 'Contributed to decision:  cost', 'Contributed to decision:  own experience', 'Contributed to decision:  own knowledge/education', 'Help to decide:  physician or nurse', 'Help to decide:  OB,GYN or nurse', 'Help to decide: husband/partner', 'Help to decide:  best female friend', 'Help to decide:  mother', 'Help to decide:  father', 'Help to decide:  friends,co-workers', 'Help to decide:  grandmother' & 'Help to decide:  grandfather'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Balachova 2014.r'
+
+Processing 'Balachova 2016.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Balachova 2016.r'
+... File contains variables 'Aggregate attitude', 'belief ok to drink a little', 'type alcohol affects outcome', 'amount of harm', 'belief that drinking may benefit baby', 'belief that drinking may benefit mother', 'belief that drinking may harm the baby', 'belief that drinking may harm the mother', 'belief that drinking does not have any effect', 'belief that occasional alcohol is safe first trimester', 'belief that occasional alcohol is safe second trimester', 'belief that occasional alcohol is safe third trimester', 'prenatal alcohol increases chance of miscarriage', 'prenatal alcohol increases chance of infantile withdrawal symptoms', 'prenatal alcohol increases chance of low birth weight', 'prenatal alcohol increases chance of seizures', 'prenatal alcohol increases chance of birth defects, malformations', 'prenatal alcohol increases chance of hallucinations', 'prenatal alcohol increases chance of lower IQ, mental retardation' & 'knowledge of FAS'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Balachova 2016.r'
+
+Processing 'Blume 2007.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... alcohol can hurt the unborn child & alcohol can help you when pregnant
+... Finished reading source file of 'Blume 2007.r'
+... File contains variables 'alcohol can hurt the unborn child' & 'alcohol can help you when pregnant'.
+... Combining with aggregate: univariate skipped (0 lines), association skipped (0 lines) & variable added.
+Finished processing 'Blume 2007.r'
+
+Processing 'Brittain 2017.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Brittain 2017.r'
+... File contains variables 'perceivedSupportAvailability' & 'drinking'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'Brittain 2017.r'
+
+Processing 'Dupraz 2013.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Dupraz 2013.r'
+... File contains variables 'encouragement to diminish consumption from others', 'feeling guilty', 'husband/partner stopped drinking', 'husband/partner diminished his consumption', 'husband/partner did not modify his consumption' & 'husband/partner increased his consumption'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Dupraz 2013.r'
+
+Processing 'Eaton 2014b.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Eaton 2014b.r'
+... File contains variables 'Pregnant women should not drink alcohol', 'Drinking can harm the baby', 'Drinking can lead to lifelong health problems', 'Amount of drinks safe' & 'Frequency of drinking safe'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Eaton 2014b.r'
+
+Processing 'Howlett 2017.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Howlett 2017.r'
+... File contains variables '1-2 units safe amount to drink while pregnant' & 'more than 3 units safe amount to drink while pregnant'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Howlett 2017.r'
+
+Processing 'Kaminski 1995.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Kaminski 1995.r'
+... File contains variables 'harmful to baby's health' & 'harmful to own health'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Kaminski 1995.r'
+
+Processing 'Kaskutas 2000.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Kaskutas 2000.r'
+... File contains variables 'Is it ever to late to quit drinking'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Kaskutas 2000.r'
+
+Processing 'Kesmodel 2002.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Kesmodel 2002.r'
+... File contains variables 'pregnant women should pay attention to alcohol' & 'Should women pay attention to intake?'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Kesmodel 2002.r'
+
+Processing 'Kristjanson 2007.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Kristjanson 2007.r'
+... File contains variables 'heavy drinking increases changes of miscarriage', 'heavy drinking increases changes of mental retardation', 'heavy drinking increases changes of low birth weight', 'heavy drinking increases changes of birth defects', 'heard of FAS', 'FAS is a baby born drunk', 'FAS is a baby born addicted to alcohol' & 'FAS is a baby born with birth defects'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Kristjanson 2007.r'
+
+Processing 'Lee 2010.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Lee 2010.r'
+... File contains variables 'Drinking during Pregnancy', 'Knowledge of alcohol effects on miscarriage', 'Knowledge of alcohol effects on mental retardation', 'Knowledge of alcohol effects on low birth weight', 'Knowledge of alcohol effects on birth defects' & 'Awareness of FAS'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'Lee 2010.r'
+
+Processing 'Lelong 1995.r' ...
+... Verified extraction file without errors!
+... Finished reading source file of 'Lelong 1995.r'
+... File contains variables 'Alcohol during Pregnancy', 'Thinks alcohol is harmful to baby's health' & 'Thinks alcohol is harmful to own health'.
+... Combining with aggregate: univariate added, association added & variable added.
+Finished processing 'Lelong 1995.r'
+
+Processing 'Leonardson 2007a.r' ...
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Leonardson 2007a.r'
+... File contains variables 'alcohol use' & 'any amount of alcohol was safe for pregnant women to drink'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'Leonardson 2007a.r'
+
+Processing 'McKnight 1987.r' ...
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... postnatal drinking behavior
+... Finished reading source file of 'McKnight 1987.r'
+... File contains variables 'alcohol use', 'expected effect of alcohol on baby' & 'postnatal drinking behavior'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'McKnight 1987.r'
+
+Processing 'Moore 1996.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... beliefs, norms & self-efficacy
+... Finished reading source file of 'Moore 1996.r'
+... File contains variables 'beliefs', 'norms' & 'self-efficacy'.
+... Combining with aggregate: univariate skipped (0 lines), association skipped (0 lines) & variable added.
+Finished processing 'Moore 1996.r'
+
+Processing 'Onwuka 2016.r' ...
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Onwuka 2016.r'
+... File contains variables 'Awareness of harmful effects of alcohol' & 'alcohol use'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'Onwuka 2016.r'
+
+Processing 'Peadon 2011.r' ...
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... Partner influence on alcohol consumption: if your spouse or partner continued to drink alcohol during your pregnancy?, Partner influence on alcohol consumption: if your spouse or partner encouraged you to stop or cut back your alcohol drinking during your pregnancy?, Partner influence on alcohol consumption: if your spouse or partner were to offer you alcohol during your pregnancy? & Partner influence on alcohol consumption: if your spouse or partner stopped drinking alcohol during your pregnancy
+... Finished reading source file of 'Peadon 2011.r'
+... File contains variables 'Partner influence on alcohol consumption: if your spouse or partner continued to drink alcohol during your pregnancy?', 'Partner influence on alcohol consumption: if your spouse or partner encouraged you to stop or cut back your alcohol drinking during your pregnancy?', 'Partner influence on alcohol consumption: if your spouse or partner were to offer you alcohol during your pregnancy?', 'Partner influence on alcohol consumption: if your spouse or partner stopped drinking alcohol during your pregnancy', 'alcohol use in past', 'intention', 'Drinking alcohol in pregnancy can affect the unborn child', 'Drinking alcohol in pregnancy can lead to life-long disabilities in a child' & 'Pregnant women should not drink alcohol'.
+... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
+Finished processing 'Peadon 2011.r'
+
+Processing 'Pettigrew 2016.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Pettigrew 2016.r'
+... File contains variables 'Belief should reduce the amount of alcohol consumed', 'Belief will actually reduce amount of alcohol consumed' & 'Intention five or more drinks'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Pettigrew 2016.r'
+
+Processing 'Strychar 1990.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Strychar 1990.r'
+... File contains variables 'Could name at least one effect of consuming large amounts of alcohol during  pregnancy', 'Were aware that small amounts of alcohol were associated with the possible risk of having a lower birthweight infant', 'Identified no alcohol as a safe amount to consume during pregnancy' & 'Women perceived few barriers in managing their alcohol consumption during pregnancy'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Strychar 1990.r'
+
+Processing 'Wulp 2015.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... Alcohol use during pregnancy can lead to brain damage of the unborn child, Perceived likelihood that the baby would experience harm, Perceived severity of harm to the baby resulting from prenatal consumption of one standard glass of alcohol, Advantages of not drinking: not drinking alcohol in pregnancy is better for my baby's health, Disadvantages of not drinking: If I do not drink alcohol in pregnancy I feel more stressed, Indicate the level of difficulty with abstaining from alcohol during pregnancy, Indicate the level of difficulty with abstaining from alcohol during pregnancy, Women's perception of her partner's influence: my partner considers it important that I do not drink alcohol in pregnancy, Women's perception of her partner's influence: my partner does not drink alcohol in my presence, Women's perception of her partner's influence: my partner supports me in drinking no alcohol during pregnancy & Received midwife's advise not to drink
+... Finished reading source file of 'Wulp 2015.r'
+... File contains variables 'Alcohol use during pregnancy can lead to brain damage of the unborn child', 'Perceived likelihood that the baby would experience harm', 'Perceived severity of harm to the baby resulting from prenatal consumption of one standard glass of alcohol', 'Advantages of not drinking: not drinking alcohol in pregnancy is better for my baby's health', 'Disadvantages of not drinking: If I do not drink alcohol in pregnancy I feel more stressed', 'Indicate the level of difficulty with abstaining from alcohol during pregnancy', 'Indicate the level of difficulty with abstaining from alcohol during pregnancy', 'Women's perception of her partner's influence: my partner considers it important that I do not drink alcohol in pregnancy', 'Women's perception of her partner's influence: my partner does not drink alcohol in my presence', 'Women's perception of her partner's influence: my partner supports me in drinking no alcohol during pregnancy' & 'Received midwife's advise not to drink'.
+... Combining with aggregate: univariate skipped (0 lines), association skipped (0 lines) & variable added.
+Finished processing 'Wulp 2015.r'
+
+Processing 'Yamamoto 2008.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... Verified extraction file without errors!
+... Finished reading source file of 'Yamamoto 2008.r'
+... File contains variables 'knowledge regarding the effects of alcohol on fetuses' & 'advise regarding risks of alcohol consumption'.
+... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.
+Finished processing 'Yamamoto 2008.r'
+
+WARNING: duplicate variables detected: Wulp 2015.r_indicatethelevelofdifficultywithabstainingfromalcoholduringpregnancy
+
+FINISHED processing 25 files.
+

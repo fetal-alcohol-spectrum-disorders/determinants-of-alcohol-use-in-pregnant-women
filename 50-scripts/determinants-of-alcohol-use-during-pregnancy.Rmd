@@ -1,0 +1,358 @@
+---
+title: "Determinants of alcohol use during pregnancy"
+author: "Sylvia Roozen & Gjalt-Jorn Peters"
+date: "`r format(Sys.time(), '%H:%M:%S on %Y-%m-%d %Z (GMT%z)')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+########################################################################
+### Load packages
+########################################################################
+
+require('userfriendlyscience');  ### For convenience functions, e.g. 'safeRequire'
+safeRequire('here');             ### To easily access files using 'relative paths'
+safeRequire('plyr');             ### For easily processing and restructuring data
+safeRequire('dplyr');            ### For case_when
+safeRequire('magrittr');         ### For the pipe operator (%>%)
+safeRequire('ggplot2');          ### For plots
+safeRequire('pander');           ### Pretty output in Markdown
+safeRequire('knitr');            ### Tables in Markdown
+safeRequire('data.tree');        ### For hierarchical data
+safeRequire('devtools');         ### To install metabefor from github repo
+                                 ### ... Which we then do here:
+devtools::install_github("Matherion/metabefor");
+require('metabefor');
+
+########################################################################
+### Settings
+########################################################################
+
+### By default hide R code
+knitr::opts_chunk$set(echo = FALSE);
+
+### Set path for query hit exports
+queryHitExportPath <- here::here("10-queries");
+
+### Set path for screening
+screeningPath <- here::here("20-screening");
+
+### Set path for extraction script template
+extractionPath <- here::here("40-extraction-scripts", "final-extractions-quantitative");
+
+### Set working path
+workingPath <- here::here("60-intermediate-results");
+
+########################################################################
+### Valid values to be specified for extracted entities
+########################################################################
+
+allowedValues.variable = c("variable",
+                           "moment",
+                           "type",
+                           "datatype",
+                           "values",
+                           "labels",
+                           "psytype",
+                           "dependent",
+                           "direction",
+                           "parent",
+                           "description",
+                           "comment",
+                           'dataCollectionMethod',
+                           'timeframe',
+                           'period',
+                           'determinant_original',
+                           'determinant_recode',
+                           'determinant_target',
+                           'determinant_direction',
+                           'determinant_consistent',
+                           'determinant_inconsistent');
+
+```
+
+# Processing the extraction scripts
+
+## Initial parsing {.tabset}
+
+### Overview
+
+Click the 'Logs' tab to see the detailed logs.
+
+```{r process-extraction-scripts, warning=FALSE}
+
+###########################################################################
+### Start processing
+###########################################################################
+
+### Process all extracted articles
+processExtractedFiles_log <-
+  capture.output(fasd_rq3_extraction <-
+                   processExtractedFiles(extractionPath,
+                                         allowedValues.variable=allowedValues.variable)) %>%
+  paste(collapse="\n");
+  
+### Store in a file
+writeLines(processExtractedFiles_log,
+           file.path(workingPath, "processing-extraction-scripts-log.txt"));
+
+### View numbers of qualitative and quantitative studies -
+### there should be no qualitative studies in this dataset
+pander(freq(unlist(lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(x$datacollectionmethod)))));
+
+### View which extraction scripts still miss the method
+which(is.na(lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(x$datacollectionmethod))));
+
+```
+
+### Logs
+
+```{r detailed-parsing-logs}
+
+### Show the output
+cat(processExtractedFiles_log);
+
+```
+
+### Determinant categorization
+
+## Second level categorization
+
+```{r second-level-categorization}
+
+l_ply(seq_along(fasd_rq3_extraction$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable), function(varIndex) {
+
+    originalCoding <- fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode;
+    originalName <- fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$variable;
+    
+    print(grepl('drinking', originalName, ignore.case = TRUE));
+
+    fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode_2 <<-
+      case_when(grepl('attitud', originalCoding, ignore.case = TRUE) ~
+                  "attitude",
+                grepl('moral norm', originalCoding, ignore.case = TRUE) ~
+                  "moralnorm",
+                grepl('personal norm', originalCoding, ignore.case = TRUE) ~
+                  "personalnorm",
+                grepl('descriptive norm', originalCoding, ignore.case = TRUE) ~
+                  "descriptivenorm",
+                grepl('norm', originalCoding, ignore.case = TRUE) ~
+                  "subjectivenorm",
+                grepl('denial', originalCoding, ignore.case = TRUE) ~
+                  "denial",
+                grepl('expectation', originalCoding, ignore.case = TRUE) ~
+                  "attitude",
+                grepl('social support', originalCoding, ignore.case = TRUE) ~
+                  "socialsupport",
+                grepl('guilt', originalCoding, ignore.case = TRUE) ~
+                  "guilt",
+                grepl('intention', originalCoding, ignore.case = TRUE) ~
+                  "intention",
+                grepl('knowledge', originalCoding, ignore.case = TRUE) ~
+                  "knowledge",
+                grepl('motivation to comply', originalCoding, ignore.case = TRUE) ~
+                  "motivationtocomply",
+                grepl('response efficacy', originalCoding, ignore.case = TRUE) ~
+                  "responseefficacy",
+                grepl('risk perception', originalCoding, ignore.case = TRUE) ~
+                  "riskperception",
+                grepl('self.?efficacy', originalCoding, ignore.case = TRUE) ~
+                  "selfefficacy",
+                grepl('severity', originalCoding, ignore.case = TRUE) ~
+                  "severity",
+                grepl('susceptibility', originalCoding, ignore.case = TRUE) ~
+                  "susceptibility",
+                grepl('drinking', originalName, ignore.case = TRUE) ~
+                  "behavior",
+                grepl('alcohol', originalName, ignore.case = TRUE) ~
+                  "behavior",
+                is.null(originalCoding) ~
+                  "NULL",
+                is.na(originalCoding) ~
+                  "NA",
+                TRUE ~
+                  "NO MATCH!");
+
+  }));
+});
+
+```
+
+## Overview of included operationalisations and how they were recoded {.tabset}
+
+```{r operationalisation-recoding}
+
+af <- function(value) return(ifelse(is.null(value) ||
+                                    is.na(value), "", value));
+
+recodedOperationalisations <-
+  ldply(fasd_rq3_extraction$intermediate$processedObjects, function(study) {
+    return(ldply(study$variable, function(x) {
+      return(data.frame(varName = x$variable,
+                        varDet_original = af(x$determinant_original),
+                        varDet_recoded = af(x$determinant_recode),
+                        varDet_recoded2 = af(x$determinant_recode_2),
+                        varDet_targetObject = af(x$determinant_target),
+                        varDet_direction = af(x$determinant_direction),
+                        varDet_targetBehavior = af(x$determinant_consistent),
+                        varDet_contrastBehavior = af(x$determinant_inconsistent),
+                        varDescription = af(x$description),
+                        stringsAsFactors=FALSE));
+    }));
+  }, .id="study");
+
+### Set all missing (NA) recodes to 'behavior'
+recodedOperationalisations$varDet_recoded2 <-
+  ifelse(is.na(recodedOperationalisations$varDet_recoded2),
+         'behavior',
+         recodedOperationalisations$varDet_recoded2);
+
+write.csv(recodedOperationalisations,
+          file.path(workingPath, "recoded-operationalisations.csv"),
+          row.names=FALSE);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Delete this once the corrected file is imported
+
+recodedOperationalisations[57, 'varDet_recoded2'] <- 'attitude';
+
+
+
+
+
+
+
+
+
+
+
+```
+
+### Read determinant definitions and hierarchy
+
+```{r determinant-hierarchy}
+
+### Import recoding specifications
+determinantHierarchy.specification <-
+  read.csv(here::here('55-recoding', 'recoding.csv'));
+
+### Get subset with only children and parents
+detH <- determinantHierarchy.specification[, c('identifier', 'parents')];
+
+### Remove all but first parent
+detH$parents <- gsub(', .*', '', detH$parents);
+
+### Convert to network
+determinantHierarchy <- FromDataFrameNetwork(detH);
+
+### Count operationalisations
+operCount <- table(recodedOperationalisations$varDet_recoded2);
+
+l_ply(names(operCount),
+      function(determinantIdentifier) {
+        Do(list(FindNode(determinantHierarchy,
+                         determinantIdentifier)),
+           function(nd) {
+             nd$nrOfItems <- operCount[determinantIdentifier];
+           });
+  });
+
+### Set number of items to 0 where it's NA
+determinantHierarchy$Do(function(nd) {
+  nd$Set(nrOfItems =
+    ifelse(is.na(nd$Get('nrOfItems')),
+           0,
+           nd$Get('nrOfItems')));
+});
+
+### Inspect results
+print(determinantHierarchy, 'nrOfItems');
+
+### Add items accumulated over children
+determinantHierarchy$Do(function(nd) {
+    nd$accumulatedItems <-
+      Aggregate(nd, attribute = "nrOfItems", aggFun = sum);
+  }, traversal = "post-order");
+
+print(determinantHierarchy, c('nrOfItems'));
+print(determinantHierarchy, c('accumulatedItems'));
+
+### Remove unused determinants from the tree
+
+Prune(determinantHierarchy,
+      function(nd) {
+        if (Aggregate(nd,
+                      attribute='nrOfItems',
+                      aggFun=sum) == 0) {
+          return(FALSE);
+        } else {
+          return(TRUE);
+        }
+      });
+
+```
+
+### Overview
+
+Click the tabs above to view the operationalisations
+
+```{r number-of-operationalisations}
+kable(table(recodedOperationalisations[order(recodedOperationalisations$varDet_recoded), ]$varDet_recoded));
+
+#recodedOperationalisations[, c('varName', 'study', 'varDet_original', 'varDet_recoded', 'varDet_recoded2')];
+
+```
+
+### Study order
+
+```{r recodedOperationalisations-study-order}
+
+kable(recodedOperationalisations);
+
+```
+
+### Ordered by recoded determinant
+
+```{r recodedOperationalisations-recodedOperationalisation-order}
+
+kable(recodedOperationalisations[order(recodedOperationalisations$varDet_recoded), ]);
+
+```
+
+## Number of extracted univariate and bivariate results
+
+```{r result-counting}
+
+univarCount <-
+  lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(ifelse(is.null(x$univariate) || is.na(x$univariate), 0, length(x$univariate))));
+univarCount <- cbind(names(univarCount), univarCount);
+row.names(univarCount) <- NULL;
+kable(univarCount);
+
+assocCount <-
+  lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(ifelse(is.null(x$association) || is.na(x$association), 0, length(x$association))));
+assocCount <- cbind(names(assocCount), assocCount);
+row.names(assocCount) <- NULL;
+kable(assocCount);
+
+```
+
+
