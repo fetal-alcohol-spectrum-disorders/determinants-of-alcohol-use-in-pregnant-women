@@ -257,7 +257,7 @@ determinantHierarchy.specification <-
 ### Get subset with only children and parents
 detH <- determinantHierarchy.specification[, c('identifier', 'parents')];
 
-### Remove all but first parent
+### Remove all but first parent where multiple are listed
 detH$parents <- gsub(', .*', '', detH$parents);
 
 ### Convert to network
@@ -266,6 +266,7 @@ determinantHierarchy <- FromDataFrameNetwork(detH);
 ### Count operationalisations
 operCount <- table(recodedOperationalisations$varDet_recoded2);
 
+### Add this count to the determinant hierarchy
 l_ply(names(operCount),
       function(determinantIdentifier) {
         Do(list(FindNode(determinantHierarchy,
@@ -275,7 +276,7 @@ l_ply(names(operCount),
            });
   });
 
-### Set number of items to 0 where it's NA
+### Set number of operationalisations to 0 where it's NA
 determinantHierarchy$Do(function(nd) {
   nd$Set(nrOfItems =
     ifelse(is.na(nd$Get('nrOfItems')),
@@ -283,38 +284,116 @@ determinantHierarchy$Do(function(nd) {
            nd$Get('nrOfItems')));
 });
 
-### Inspect results
-print(determinantHierarchy, 'nrOfItems');
+### Add items accumulated over children;
+### First create a custom recursive function (Aggregate
+### doesn't seem to be able to cut it for some reason)
+getTotalNrOfItems <- function(node) {
+  if (node$isLeaf) {
+    return(node$nrOfItems);
+  } else {
+    return(sum(node$nrOfItems,
+               unlist(lapply(node$children,
+                             getTotalNrOfItems))));
+  }
+}
 
-### Add items accumulated over children
+### Apply this function
 determinantHierarchy$Do(function(nd) {
-    nd$accumulatedItems <-
-      Aggregate(nd, attribute = "nrOfItems", aggFun = sum);
+  nd$accumulatedItems <- getTotalNrOfItems(nd);
   }, traversal = "post-order");
 
-print(determinantHierarchy, c('nrOfItems'));
-print(determinantHierarchy, c('accumulatedItems'));
+#print(determinantHierarchy, 'nrOfItems', 'accumulatedItems');
 
-### Remove unused determinants from the tree
-
-Prune(determinantHierarchy,
+### Remove ('prune') unused determinants from the tree
+invisible(Prune(determinantHierarchy,
       function(nd) {
-        if (Aggregate(nd,
-                      attribute='nrOfItems',
-                      aggFun=sum) == 0) {
+        if (nd$accumulatedItems == 0) {
           return(FALSE);
         } else {
           return(TRUE);
         }
-      });
+      }));
+
+#print(determinantHierarchy, 'nrOfItems', 'accumulatedItems');
+
+### Set labels as both name and number of items
+SetNodeStyle(determinantHierarchy,
+             label = function(x) paste0(x$name, "\n",
+                                        x$nrOfItems));
+
+### Plot hierarchy
+plot(determinantHierarchy);
+
+```
+
+```{r determinant-types, results='asis'}
+
+### Add operationalisations and metadata about the
+### operationalisations
+determinantHierarchy$Do(function(nd) {
+  
+  nd$operationalisations <-
+    recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                               'varDescription'];
+  
+  nd$targetBehaviors <-
+    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                     'varDet_targetBehavior']);
+  
+  ### Separate
+  nd$targetObjects_other <-
+    sum(grepl('other',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                         'varDet_targetObject']));
+  nd$targetObjects_self <-
+    sum(grepl('self',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                         'varDet_targetObject']));
+  nd$targetObjects_unclear <-
+    sum(grepl('unclear',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                         'varDet_targetObject']));
+  nd$targetObjects_unspecified <-
+    sum(grepl('unspecified',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                         'varDet_targetObject']));
+  nd$targetObjects_neutral <-
+    sum(grepl('neutral',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                         'varDet_targetObject']));
+
+  nd$targetObjects <-
+    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                     'varDet_targetObject']);
+  
+  nd$directions <-
+    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                     'varDet_direction']);
+  
+  nd$contrastBehaviors <-
+    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                     'varDet_contrastBehavior']);
+  
+});
+
+kable(print(determinantHierarchy,
+            'targetObjects_self',
+            'targetObjects_other',
+            'targetObjects_unclear',
+            'targetObjects_unspecified',
+            'targetObjects_neutral'));
+
+#print(determinantHierarchy,'operationalisations');
+
 
 ```
 
 ### Overview
 
-Click the tabs above to view the operationalisations
+Click the tabs above to view the operationalisations.
 
 ```{r number-of-operationalisations}
+
 kable(table(recodedOperationalisations[order(recodedOperationalisations$varDet_recoded), ]$varDet_recoded));
 
 #recodedOperationalisations[, c('varName', 'study', 'varDet_original', 'varDet_recoded', 'varDet_recoded2')];
