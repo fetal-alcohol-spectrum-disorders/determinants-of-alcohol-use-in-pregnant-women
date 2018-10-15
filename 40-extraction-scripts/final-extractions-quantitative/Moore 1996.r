@@ -86,7 +86,7 @@ res$subsample[[length(res$subsample) + 1]] <- list( ### Create object for this s
 ##########################################################################
 
 ### Specify how the data was collected ("qualitative" or "quantitative", or "both")
-res$datacollectionmethod <- NA;
+res$datacollectionmethod <- "quantitative";
 
 ### Specify how many measurement moments the study has, as a number (of
 ### course, this will just be 1 for most studies)
@@ -170,7 +170,7 @@ res$variable[[length(res$variable) + 1]] <- list(
   determinant_original = "beliefs",		### If reported, how do the authors categorized the determinant, e.g., "knowledge", "attitude", "risk perception"
   determinant_recode = "attitude",			### Determinant recoded after expert meeting 
   determinant_target = "self, other",			###	"self", "other", or both "self,other"
-  determinant_direction = "postive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
+  determinant_direction = "positive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
   determinant_consistent = "D",		###	Indication if the direction of the determinant is (in)consistent or unclear with the target/contrast behaviour  
   determinant_inconsistent = "AM",	### Behaviours are categorised as follows: "A" for abstinence, "M" for moderating drinking, and "D" for drinking   
   comment = NA                      ### Comment, as text; or NA;
@@ -194,7 +194,7 @@ res$variable[[length(res$variable) + 1]] <- list(
   determinant_original = "norm",		### If reported, how do the authors categorized the determinant, e.g., "knowledge", "attitude", "risk perception"
   determinant_recode = "injunctive norm",			### Determinant recoded after expert meeting 
   determinant_target = "self",			###	"self", "other", or both "self,other"
-  determinant_direction = "postive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
+  determinant_direction = "positive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
   determinant_consistent = "D",		###	Indication if the direction of the determinant is (in)consistent or unclear with the target/contrast behaviour  
   determinant_inconsistent = "A",	### Behaviours are categorised as follows: "A" for abstinence, "M" for moderating drinking, and "D" for drinking   
   comment = NA                      ### Comment, as text; or NA;
@@ -217,9 +217,9 @@ res$variable[[length(res$variable) + 1]] <- list(
   timeframe = NA,                   ### "retrospective" vs "concurrent" 
   period = NA,               		### "before", "1st", "2nd", "3rd", "during", "after", "other"
   determinant_original = "self efficacy",		### If reported, how do the authors categorized the determinant, e.g., "knowledge", "attitude", "risk perception"
-  determinant_recode = "risk perception",			### Determinant recoded after expert meeting 
+  determinant_recode = "self-efficacy",			### Determinant recoded after expert meeting 
   determinant_target = "self, other",			###	"self", "other", or both "self,other"
-  determinant_direction = "postive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
+  determinant_direction = "positive, negative",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
   determinant_consistent = "D",		###	Indication if the direction of the determinant is (in)consistent or unclear with the target/contrast behaviour  
   determinant_inconsistent = "AM",	### Behaviours are categorised as follows: "A" for abstinence, "M" for moderating drinking, and "D" for drinking   
   comment = NA                      ### Comment, as text; or NA;

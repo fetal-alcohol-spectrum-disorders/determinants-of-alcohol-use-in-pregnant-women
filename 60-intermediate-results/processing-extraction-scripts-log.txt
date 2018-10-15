@@ -1,4 +1,4 @@
-STARTING to process 25 files ...
+STARTING to process 26 files ...
 
 Processing 'Adeyiga 2014.r' ...
 ... Verified extraction file without errors!
@@ -54,6 +54,16 @@ Processing 'Brittain 2017.r' ...
 ... File contains variables 'perceivedSupportAvailability' & 'drinking'.
 ... Combining with aggregate: univariate skipped (0 lines), association added & variable added.
 Finished processing 'Brittain 2017.r'
+
+Processing 'Chang 2007.r' ...
+... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
+... A univariate extraction called 'variable name' encountered: assuming it is a leftover from the template and deleting it.
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... perceived temptation & perceived efficacy
+... Finished reading source file of 'Chang 2007.r'
+... File contains variables 'perceived temptation' & 'perceived efficacy'.
+... Combining with aggregate: univariate skipped (0 lines), association skipped (0 lines) & variable added.
+Finished processing 'Chang 2007.r'
 
 Processing 'Dupraz 2013.r' ...
 ... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
@@ -203,5 +213,5 @@ Finished processing 'Yamamoto 2008.r'
 
 WARNING: duplicate variables detected: Wulp 2015.r_indicatethelevelofdifficultywithabstainingfromalcoholduringpregnancy
 
-FINISHED processing 25 files.
+FINISHED processing 26 files.
 

@@ -88,7 +88,7 @@ Click the 'Logs' tab to see the detailed logs.
 
 ### Process all extracted articles
 processExtractedFiles_log <-
-  capture.output(fasd_rq3_extraction <-
+  capture.output(extractedData <-
                    processExtractedFiles(extractionPath,
                                          allowedValues.variable=allowedValues.variable)) %>%
   paste(collapse="\n");
@@ -99,10 +99,10 @@ writeLines(processExtractedFiles_log,
 
 ### View numbers of qualitative and quantitative studies -
 ### there should be no qualitative studies in this dataset
-pander(freq(unlist(lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(x$datacollectionmethod)))));
+pander(freq(unlist(lapply(extractedData$intermediate$processedObjects, function(x) return(x$datacollectionmethod)))));
 
 ### View which extraction scripts still miss the method
-which(is.na(lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(x$datacollectionmethod))));
+which(is.na(lapply(extractedData$intermediate$processedObjects, function(x) return(x$datacollectionmethod))));
 
 ```
 
@@ -121,15 +121,15 @@ cat(processExtractedFiles_log);
 
 ```{r second-level-categorization}
 
-l_ply(seq_along(fasd_rq3_extraction$intermediate$processedObjects), function(studyIndex) {
-  return(l_ply(seq_along(fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable), function(varIndex) {
+l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(extractedData$intermediate$processedObjects[[studyIndex]]$variable), function(varIndex) {
 
-    originalCoding <- fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode;
-    originalName <- fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$variable;
+    originalCoding <- extractedData$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode;
+    originalName <- extractedData$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$variable;
     
-    print(grepl('drinking', originalName, ignore.case = TRUE));
+    #print(grepl('drinking', originalName, ignore.case = TRUE));
 
-    fasd_rq3_extraction$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode_2 <<-
+    extractedData$intermediate$processedObjects[[studyIndex]]$variable[[varIndex]]$determinant_recode_2 <<-
       case_when(grepl('attitud', originalCoding, ignore.case = TRUE) ~
                   "attitude",
                 grepl('moral norm', originalCoding, ignore.case = TRUE) ~
@@ -178,6 +178,32 @@ l_ply(seq_along(fasd_rq3_extraction$intermediate$processedObjects), function(stu
   }));
 });
 
+prettyLabels <-
+  c(attitude = "Attitude",
+    moralnorm = "Moral Norm",
+    personalnorm = "Personal Norm",
+    descriptivenorm = "Descriptive Norm",
+    injunctivenorm = "Injunctive Norm",
+    subjectivenorm = "Subjective Norm",
+    perceivednorm = "Perceived Norm",
+    denial = "Denial",
+    socialsupport = "Social Support",
+    guilt = "Guilt",
+    intention = "Intention",
+    knowledge = "Knowledge",
+    motivationtocomply = "Motivation To Comply",
+    responseefficacy = "Response Efficacy",
+    eppmefficacy = 'EPPM`s efficacy',
+    outcomeexpectation = "Outcome Expectation",
+    riskperception = "Risk Perception",
+    outcomeexpectations = "Outcome Expectation",
+    selfefficacy = "Self-Efficacy",
+    severity = "Severity",
+    intention = "Intention",
+    agency = "Agency",
+    susceptibility = "Susceptibility",
+    behavior = "Alcohol Use");
+
 ```
 
 ## Overview of included operationalisations and how they were recoded {.tabset}
@@ -188,7 +214,7 @@ af <- function(value) return(ifelse(is.null(value) ||
                                     is.na(value), "", value));
 
 recodedOperationalisations <-
-  ldply(fasd_rq3_extraction$intermediate$processedObjects, function(study) {
+  ldply(extractedData$intermediate$processedObjects, function(study) {
     return(ldply(study$variable, function(x) {
       return(data.frame(varName = x$variable,
                         varDet_original = af(x$determinant_original),
@@ -212,37 +238,6 @@ recodedOperationalisations$varDet_recoded2 <-
 write.csv(recodedOperationalisations,
           file.path(workingPath, "recoded-operationalisations.csv"),
           row.names=FALSE);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Delete this once the corrected file is imported
-
-recodedOperationalisations[57, 'varDet_recoded2'] <- 'attitude';
-
-
-
-
-
-
-
-
-
-
 
 ```
 
@@ -318,11 +313,32 @@ invisible(Prune(determinantHierarchy,
 
 ### Set labels as both name and number of items
 SetNodeStyle(determinantHierarchy,
-             label = function(x) paste0(x$name, "\n",
-                                        x$nrOfItems));
+             shape = "box",
+             style = "rounded",
+             fontname = "Arial",
+             label = function(x) paste0(prettyLabels[x$name], "\n",
+                                        "(",
+                                        x$nrOfItems,
+                                        " items; ",
+                                        x$accumulatedItems,
+                                        " incl. children)"));
+
+SetGraphStyle(determinantHierarchy,
+              rankdir = "RL");
+
+SetEdgeStyle(determinantHierarchy,
+             color = "#000000",
+             style="solid",
+             dir="back",
+             penwidth = 2);
 
 ### Plot hierarchy
 plot(determinantHierarchy);
+
+DiagrammeR::export_graph(data.tree::ToDiagrammeRGraph(determinantHierarchy),
+                         file_name = file.path(workingPath,
+                                               "operationalisations-overview.svg"),
+                         file_type = "svg");
 
 ```
 
@@ -330,17 +346,8 @@ plot(determinantHierarchy);
 
 ### Add operationalisations and metadata about the
 ### operationalisations
-determinantHierarchy$Do(function(nd) {
+invisible(determinantHierarchy$Do(function(nd) {
   
-  nd$operationalisations <-
-    recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
-                               'varDescription'];
-  
-  nd$targetBehaviors <-
-    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
-                                     'varDet_targetBehavior']);
-  
-  ### Separate
   nd$targetObjects_other <-
     sum(grepl('other',
         recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
@@ -365,23 +372,96 @@ determinantHierarchy$Do(function(nd) {
   nd$targetObjects <-
     table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
                                      'varDet_targetObject']);
+
+  nd$directions_negative <-
+    sum(grepl('negative',
+        recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_direction']));
+  nd$directions_negative <-
+      sum(grepl('negative',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_direction']));
   
+  nd$directions_neutral <-
+      sum(grepl('neutral',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_direction']));
+  
+  nd$directions_positive <-
+      sum(grepl('positive',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_direction']));
+
   nd$directions <-
     table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
                                      'varDet_direction']);
-  
+
+  nd$targetBehaviors_A <-
+    sum(grepl('A',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_targetBehavior']));
+
+  nd$targetBehaviors_M <-
+    sum(grepl('M',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_targetBehavior']));
+
+  nd$targetBehaviors_D <-
+    sum(grepl('D',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_targetBehavior']));
+
+  nd$targetBehaviors <-
+    table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                     'varDet_targetBehavior']);
+
+  nd$contrastBehaviors_A <-
+    sum(grepl('A',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_contrastBehavior']));
+
+  nd$contrastBehaviors_M <-
+    sum(grepl('M',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_contrastBehavior']));
+
+  nd$contrastBehaviors_D <-
+    sum(grepl('D',
+          recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
+                                           'varDet_contrastBehavior']));
+
   nd$contrastBehaviors <-
     table(recodedOperationalisations[recodedOperationalisations$varDet_recoded2 == nd$name,
                                      'varDet_contrastBehavior']);
   
-});
+}));
 
-kable(print(determinantHierarchy,
+kablePrintNode <- function(node, ...) {
+  null <- capture.output(res <- invisible(kable(print(node, ...))));
+  return(res);
+}
+
+kablePrintNode(determinantHierarchy,
             'targetObjects_self',
             'targetObjects_other',
             'targetObjects_unclear',
             'targetObjects_unspecified',
-            'targetObjects_neutral'));
+            'targetObjects_neutral');
+
+kablePrintNode(determinantHierarchy,
+            'directions_negative',
+            'directions_neutral',
+            'directions_positive');
+
+kablePrintNode(determinantHierarchy,
+            'targetBehaviors_A',
+            'targetBehaviors_M',
+            'targetBehaviors_D');
+
+kablePrintNode(determinantHierarchy,
+              'contrastBehaviors_A',
+              'contrastBehaviors_M',
+              'contrastBehaviors_D');
 
 #print(determinantHierarchy,'operationalisations');
 
@@ -421,17 +501,110 @@ kable(recodedOperationalisations[order(recodedOperationalisations$varDet_recoded
 ```{r result-counting}
 
 univarCount <-
-  lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(ifelse(is.null(x$univariate) || is.na(x$univariate), 0, length(x$univariate))));
+  lapply(extractedData$intermediate$processedObjects, function(x)
+    return(ifelse(is.null(x$univariate) || is.na(x$univariate), 0, length(x$univariate))));
+
 univarCount <- cbind(names(univarCount), univarCount);
 row.names(univarCount) <- NULL;
 kable(univarCount);
 
+cat("\n\nAvailable bivariate results:",
+     vecTxtQ(sort(unique(unlist(lapply(extractedData$intermediate$processedObjects,
+                                       function(x)
+    return(ifelse(is.null(x$univariate) ||
+                  is.na(x$univariate) ||
+                  length(is.null(x$univariate))==0,
+                  0,
+                  list(lapply(x$univariate, function(y) {
+                    if (sum(!is.na(y)) > 0) {
+                      return(names(y)[!is.na(y)]);
+                    } else {
+                      return(NULL);
+                    }
+                  }))))))))));
+
 assocCount <-
-  lapply(fasd_rq3_extraction$intermediate$processedObjects, function(x) return(ifelse(is.null(x$association) || is.na(x$association), 0, length(x$association))));
+  lapply(extractedData$intermediate$processedObjects, function(x)
+    return(ifelse(is.null(x$association) || is.na(x$association), 0, length(x$association))));
+
 assocCount <- cbind(names(assocCount), assocCount);
 row.names(assocCount) <- NULL;
 kable(assocCount);
 
+cat("\n\nAvailable associations:",
+     vecTxtQ(sort(unique(unlist(lapply(extractedData$intermediate$processedObjects,
+                                       function(x)
+    return(ifelse(is.null(x$association) ||
+                  is.na(x$association) ||
+                  length(is.null(x$association))==0,
+                  0,
+                  list(lapply(x$association, function(y) {
+                    if (sum(!is.na(y)) > 0) {
+                      return(names(y)[!is.na(y)]);
+                    } else {
+                      return(NULL);
+                    }
+                  }))))))))));
+
 ```
 
+## Detailed univariate results
 
+```{r detailed-univariate-results}
+
+### Add sample information to univariate data
+sampleInfo <-
+  names(extractedData$intermediate$processedObjects[[1]]$sample);
+extractedData$output$univariate <-
+  addSampleInfo(listOfObjects = extractedData$intermediate$processedObjects,
+                dataframe = extractedData$output$univariate,
+                variableToAdd = setdiff(sampleInfo,
+                                        names(extractedData$output$univariate)));
+
+### Add variable (operationalisation) information to univariate data
+extractedData$output$univariate <-
+  addVariableInfo(variablesDataframe = extractedData$output$variable,
+                  dataframe = extractedData$output$univariate,
+                  variableToAdd = setdiff(names(extractedData$output$variable),
+                                          names(extractedData$output$univariate)));
+
+extractedData$output$univariate$percentage <-
+  round(extractedData$output$univariate$percentage,
+        2);
+
+knitr::kable(extractedData$output$univariate[, c('study',
+                                                 'variable',
+                                                 'determinant_recode',
+                                                 'percentage',
+                                                 'determinant_target',
+                                                 'determinant_direction',
+                                                 'determinant_consistent',
+                                                 'determinant_inconsistent')]);
+
+```
+
+## Detailed association results
+
+```{r detailed-association-results}
+
+### Add sample information to association data
+sampleInfo <-
+  names(extractedData$intermediate$processedObjects[[1]]$sample);
+extractedData$output$association <-
+  addSampleInfo(listOfObjects = extractedData$intermediate$processedObjects,
+                dataframe = extractedData$output$association,
+                variableToAdd = setdiff(sampleInfo,
+                                        names(extractedData$output$association)));
+
+### Add variable (operationalisation) information to association data
+extractedData$output$association <-
+  addVariableInfo(variablesDataframe = extractedData$output$variable,
+                  dataframe = extractedData$output$association,
+                  variableToAdd = setdiff(names(extractedData$output$variable),
+                                          names(extractedData$output$association)));
+
+knitr::kable(extractedData$output$association[, c('study',
+                                                  'variable1',
+                                                  'variable2')]);
+
+```
