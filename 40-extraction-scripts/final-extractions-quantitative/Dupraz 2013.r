@@ -246,7 +246,7 @@ res$variable[[length(res$variable) + 1]] <- list(
   timeframe = "retrospective",                   ### "retrospective" vs "concurrent" 
   period = NA,               		### "before", "1st", "2nd", "3rd", "during", "after", "other"
   determinant_original = NA,		### If reported, how do the authors categorized the determinant, e.g., "knowledge", "attitude", "risk perception"
-  determinant_recode = "subjective norm, perceived social support",			### Determinant recoded after expert meeting 
+  determinant_recode = "perceived social support",			### Determinant recoded after expert meeting 
   determinant_target = "self",			###	"self", "other", or both "self,other"
   determinant_direction = "positive",		###	Indication if the direction of the determinant is "positive", "negative" or "unclear"
   determinant_consistent = "AM",		###	Indication if the direction of the determinant is (in)consistent or unclear with the target/contrast behaviour  

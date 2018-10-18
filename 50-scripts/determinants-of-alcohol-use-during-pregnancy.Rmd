@@ -15,6 +15,7 @@ require('userfriendlyscience');  ### For convenience functions, e.g. 'safeRequir
 safeRequire('here');             ### To easily access files using 'relative paths'
 safeRequire('plyr');             ### For easily processing and restructuring data
 safeRequire('dplyr');            ### For case_when
+safeRequire('purrr');            ### For quickly getting value from list of lists with map
 safeRequire('magrittr');         ### For the pipe operator (%>%)
 safeRequire('ggplot2');          ### For plots
 safeRequire('pander');           ### Pretty output in Markdown
@@ -139,7 +140,7 @@ l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyInde
                 grepl('descriptive norm', originalCoding, ignore.case = TRUE) ~
                   "descriptivenorm",
                 grepl('norm', originalCoding, ignore.case = TRUE) ~
-                  "subjectivenorm",
+                  "injunctivenorm",
                 grepl('denial', originalCoding, ignore.case = TRUE) ~
                   "denial",
                 grepl('expectation', originalCoding, ignore.case = TRUE) ~
@@ -203,6 +204,69 @@ prettyLabels <-
     agency = "Agency",
     susceptibility = "Susceptibility",
     behavior = "Alcohol Use");
+
+```
+
+```{r adding-values-and-labels-to-univariate-and-associations}
+
+l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(extractedData$intermediate$processedObjects[[studyIndex]]$univariate), function(resultIndex) {
+
+    referredVariableName <- extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$variable;
+    
+    referredVariableExtraction <-
+      extractedData$intermediate$processedObjects[[studyIndex]]$variable[[
+        which(unlist(purrr::map(extractedData$intermediate$processedObjects[[studyIndex]]$variable, 'variable')) == referredVariableName)
+      ]];
+    
+    referredValueLabelVector <-
+      referredVariableExtraction$labels;
+
+    names(referredValueLabelVector) <-
+      as.character(referredVariableExtraction$values);
+
+    extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$valueLabel <<-
+      unname(referredValueLabelVector[as.character(extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$value)]);
+    
+    extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$description <<-
+      referredVariableExtraction$description;
+
+    extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$determinantId <<-
+      referredVariableExtraction$determinant_recode_2;
+    
+    extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]]$study <<-
+      names(extractedData$intermediate$processedObjects)[studyIndex];
+    
+  }));
+});
+
+l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(extractedData$intermediate$processedObjects[[studyIndex]]$association), function(resultIndex) {
+
+    referredVariableName <- extractedData$intermediate$processedObjects[[studyIndex]]$association[[resultIndex]]$variable1;
+
+    referredVariableExtraction <-
+      extractedData$intermediate$processedObjects[[studyIndex]]$variable[[
+        which(unlist(purrr::map(extractedData$intermediate$processedObjects[[studyIndex]]$variable, 'variable')) == referredVariableName)
+      ]];
+    
+    referredValueLabelVector <-
+      referredVariableExtraction$labels;
+
+    names(referredValueLabelVector) <-
+      as.character(referredVariableExtraction$values);
+
+    extractedData$intermediate$processedObjects[[studyIndex]]$association[[resultIndex]]$description <<-
+      referredVariableExtraction$description;
+
+    extractedData$intermediate$processedObjects[[studyIndex]]$association[[resultIndex]]$determinantId <<-
+      referredVariableExtraction$determinant_recode_2;
+    
+    extractedData$intermediate$processedObjects[[studyIndex]]$association[[resultIndex]]$study <<-
+      names(extractedData$intermediate$processedObjects)[studyIndex];
+    
+  }));
+});
 
 ```
 
@@ -321,7 +385,7 @@ SetNodeStyle(determinantHierarchy,
                                         x$nrOfItems,
                                         " items; ",
                                         x$accumulatedItems,
-                                        " incl. children)"));
+                                        " incl. subdeterminants)"));
 
 SetGraphStyle(determinantHierarchy,
               rankdir = "RL");
@@ -339,6 +403,60 @@ DiagrammeR::export_graph(data.tree::ToDiagrammeRGraph(determinantHierarchy),
                          file_name = file.path(workingPath,
                                                "operationalisations-overview.svg"),
                          file_type = "svg");
+
+```
+
+
+```{r add-results-to-determinant-hierarchy}
+
+l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(extractedData$intermediate$processedObjects[[studyIndex]]$univariate), function(resultIndex) {
+
+    univarExtraction <- extractedData$intermediate$processedObjects[[studyIndex]]$univariate[[resultIndex]];
+    
+    determinantNode <- FindNode(determinantHierarchy,
+                                univarExtraction$determinantId);
+    
+    if (is.null(determinantNode$univar)) {
+      determinantNode$univar <- as.data.frame(univarExtraction);
+    } else {
+      determinantNode$univar <- plyr::rbind.fill(determinantNode$univar,
+                                                 as.data.frame(univarExtraction));
+    }
+    
+    determinantNode$univar <-
+      Filter(function(x) !all(is.na(x)),
+             determinantNode$univar);
+
+  }));
+});
+
+l_ply(seq_along(extractedData$intermediate$processedObjects), function(studyIndex) {
+  return(l_ply(seq_along(extractedData$intermediate$processedObjects[[studyIndex]]$association), function(resultIndex) {
+
+    assocExtraction <- extractedData$intermediate$processedObjects[[studyIndex]]$association[[resultIndex]];
+    
+    print(assocExtraction$study);
+    print(assocExtraction$variable1);
+    print(assocExtraction$variable2);
+    print(assocExtraction$determinantId);
+    
+    determinantNode <- FindNode(determinantHierarchy,
+                                assocExtraction$determinantId);
+    
+    if (is.null(determinantNode$assoc)) {
+      determinantNode$assoc <- as.data.frame(assocExtraction);
+    } else {
+      determinantNode$assoc <- plyr::rbind.fill(determinantNode$assoc,
+                                                 as.data.frame(assocExtraction));
+    }
+    
+    determinantNode$assoc <-
+      Filter(function(x) !all(is.na(x)),
+             determinantNode$assoc);
+
+  }));
+});
 
 ```
 
@@ -581,6 +699,9 @@ knitr::kable(extractedData$output$univariate[, c('study',
                                                  'determinant_consistent',
                                                  'determinant_inconsistent')]);
 
+# Percentages -> vector
+# Labels -> strsplit
+
 ```
 
 ## Detailed association results
@@ -608,3 +729,31 @@ knitr::kable(extractedData$output$association[, c('study',
                                                   'variable2')]);
 
 ```
+
+# Results organised by determinant structure
+
+```{r results-by-determinant-structure, results='asis'}
+
+invisible(determinantHierarchy$Do(function(node) {
+  cat0("\n\n## ", prettyLabels[node$name], "\n\n");
+
+  cat0("\n\n### Univariate results\n\n");
+  
+  if (is.data.frame(node$univar)) {
+    print(knitr::kable(node$univar));
+  } else {
+    cat0("\n\nNo univariate results.\n\n");
+  }
+  
+  cat0("\n\n### Associations\n\n");
+
+  if (is.data.frame(node$assoc)) {
+    print(knitr::kable(node$assoc));
+  } else {
+    cat0("\n\nNo associations.\n\n");
+  }
+  
+}, traversal = 'pre-order'));
+
+```
+
