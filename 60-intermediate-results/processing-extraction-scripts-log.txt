@@ -105,7 +105,8 @@ Finished processing 'Kaskutas 2000.r'
 
 Processing 'Kesmodel 2002.r' ...
 ... For an extracted association, one of the variable names is 'Variablename 1' or 'Variablename 2': assuming it is a leftover from the template and deleting it.
-... Verified extraction file without errors!
+... Variable(s) described (i.e. operationalisation / measurement) but not used (univariate or association missing):
+... pregnant women should pay attention to alcohol
 ... Finished reading source file of 'Kesmodel 2002.r'
 ... File contains variables 'pregnant women should pay attention to alcohol' & 'Should women pay attention to intake?'.
 ... Combining with aggregate: univariate added, association skipped (0 lines) & variable added.

@@ -104,10 +104,10 @@ res$measurementTimes <- c(0)
 ##########################################################################
 
 res$association[[length(res$association) + 1]] <- list(
-  variable1 = "drinking",     ### Name of first variable
+  variable2 = "drinking",     ### Name of first variable
   var1values = NA,                  ### Values of var 1 in this analysis (e.g. post-hoc)
   var1moment = 1,                   ### Measurement moment of var 1
-  variable2 = "perceivedSupportAvailability",     ### Name of second variable
+  variable1 = "perceivedSupportAvailability",     ### Name of second variable
   var2values = NA,                  ### Values of var 2 in this analysis (e.g. post-hoc)
   var2moment = 1,                   ### Measurement moment of var 2
   subsample = NA,                   ### Name of relevant subsample

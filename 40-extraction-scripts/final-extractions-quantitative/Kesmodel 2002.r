@@ -138,22 +138,6 @@ res$association[[length(res$association) + 1]] <- list(
 ##########################################################################
 
 res$univariate[[length(res$univariate) + 1]] <- list(
-  variable = "pregnant women should pay attention to alcohol",       ### Name of variable this result pertains to
-  subsample = NA,                   ### Name of relevant subsample, or NA
-  value = NA,                       ### Value this result pertains to
-  moment = 1,                       ### Measurement moment this datapoint pertains to
-  minimum = NA,                     ### Minimum or NA
-  maximum = NA,                     ### Maximum or NA
-  median = NA,                      ### Median or NA
-  mean = NA,                        ### Mean or NA
-  percentage = 0,                  ### Percentage that endorsed 1, or NA
-  sd = NA,                          ### Standard deviation, or NA
-  qualitative = NA,                 ### Description (qualitative research)
-  comment = NA                      ### Comment or NA
-);
-
-
-res$univariate[[length(res$univariate) + 1]] <- list(
   variable = "Should women pay attention to intake?",       ### Name of variable this result pertains to
   subsample = "abstainers",                   ### Name of relevant subsample, or NA
   value = 1,                       ### Value this result pertains to

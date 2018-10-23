@@ -131,7 +131,7 @@ res$association[[length(res$association) + 1]] <- list(
 
 
 res$association[[length(res$association) + 1]] <- list(
-  variable1 = "Thinks alcohol is harmful to baby's health",     ### Name of first variable
+  variable1 = "Thinks alcohol is harmful to own health",     ### Name of first variable
   var1values = NA,                  ### Values of var 1 in this analysis (e.g. post-hoc)
   var1moment = 1,                   ### Measurement moment of var 1
   variable2 = "Alcohol during Pregnancy",     ### Name of second variable

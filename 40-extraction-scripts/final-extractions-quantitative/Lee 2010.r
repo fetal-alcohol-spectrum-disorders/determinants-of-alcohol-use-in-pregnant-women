@@ -139,14 +139,17 @@ res$association[[length(res$association) + 1]] <- list(
   subsample = NA,                   ### Name of relevant subsample
   df1 = NA,                         ### degrees of freedom (numerator)
   df2 = NA,                         ### for anova, second degrees of freedom (denominator)
-  t = 2.334,                           ### t-value
+  t = NA,                           ### t-value
   F = NA,                           ### F-value
+  raw.table = matrix(c(158, 49,           ### Raw crosstable; can be used
+                       356, 79),          ### to compute chi square or
+                     ncol=2, byrow=TRUE), ### Cramer's V or OR later
   chisq = NA,                       ### Chi square value
   r = NA,                           ### Pearson correlation
   d = NA,                           ### Cohen's d value
   etasq = NA,                       ### Eta squared value
   OR = NA,                          ### Odds ratio
-  p = .127,                           ### P-value (if nothing else is available)
+  p = NA,                           ### P-value (if nothing else is available)
   covariates = 0,                   ### Number of covariates (for multivariate analyses)
   comment = NA                      ### Comment (e.g. calculation, page, etc)
 );
@@ -161,14 +164,17 @@ res$association[[length(res$association) + 1]] <- list(
   subsample = NA,                   ### Name of relevant subsample
   df1 = NA,                         ### degrees of freedom (numerator)
   df2 = NA,                         ### for anova, second degrees of freedom (denominator)
-  t = .351,                           ### t-value
+  t = NA,                           ### t-value
   F = NA,                           ### F-value
+  raw.table = matrix(c(304, 80,           ### Raw crosstable; can be used
+                       210, 48),          ### to compute chi square or
+                     ncol=2, byrow=TRUE), ### Cramer's V or OR later
   chisq = NA,                       ### Chi square value
   r = NA,                           ### Pearson correlation
   d = NA,                           ### Cohen's d value
   etasq = NA,                       ### Eta squared value
   OR = NA,                          ### Odds ratio
-  p = .554,                           ### P-value (if nothing else is available)
+  p = NA,                           ### P-value (if nothing else is available)
   covariates = 0,                   ### Number of covariates (for multivariate analyses)
   comment = NA                      ### Comment (e.g. calculation, page, etc)
 );
@@ -183,14 +189,17 @@ res$association[[length(res$association) + 1]] <- list(
   subsample = NA,                   ### Name of relevant subsample
   df1 = NA,                         ### degrees of freedom (numerator)
   df2 = NA,                         ### for anova, second degrees of freedom (denominator)
-  t = .762,                           ### t-value
+  t = NA,                           ### t-value
   F = NA,                           ### F-value
+  raw.table = matrix(c(181, 51,           ### Raw crosstable; can be used
+                       333, 77),          ### to compute chi square or
+                     ncol=2, byrow=TRUE), ### Cramer's V or OR later
   chisq = NA,                       ### Chi square value
   r = NA,                           ### Pearson correlation
   d = NA,                           ### Cohen's d value
   etasq = NA,                       ### Eta squared value
   OR = NA,                          ### Odds ratio
-  p = .383,                           ### P-value (if nothing else is available)
+  p = NA,                           ### P-value (if nothing else is available)
   covariates = 0,                   ### Number of covariates (for multivariate analyses)
   comment = NA                      ### Comment (e.g. calculation, page, etc)
 );
@@ -206,14 +215,17 @@ res$association[[length(res$association) + 1]] <- list(
   subsample = NA,                   ### Name of relevant subsample
   df1 = NA,                         ### degrees of freedom (numerator)
   df2 = NA,                         ### for anova, second degrees of freedom (denominator)
-  t = .000,                           ### t-value
+  t = NA,                           ### t-value
   F = NA,                           ### F-value
+  raw.table = matrix(c(300, 74,           ### Raw crosstable; can be used
+                       214, 54),          ### to compute chi square or
+                     ncol=2, byrow=TRUE), ### Cramer's V or OR later
   chisq = NA,                       ### Chi square value
   r = NA,                           ### Pearson correlation
   d = NA,                           ### Cohen's d value
   etasq = NA,                       ### Eta squared value
   OR = NA,                          ### Odds ratio
-  p = .989,                           ### P-value (if nothing else is available)
+  p = NA,                           ### P-value (if nothing else is available)
   covariates = 0,                   ### Number of covariates (for multivariate analyses)
   comment = NA                      ### Comment (e.g. calculation, page, etc)
 );
